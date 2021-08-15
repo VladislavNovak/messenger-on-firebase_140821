@@ -1,0 +1,63 @@
+:root {
+  --primary-color: hsl(196, 78%, 61%);
+  --btn-color: var(--primary-color);
+  --btn-border-color: var(--primary-color);
+  --btn-box-shadow-color: hsla(204, 70%, 53%, 0.5);
+  --container-box-shadow-color: rgba(6, 21, 32, 0.5);
+}
+
+.login__container {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 50px 40px;
+
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 8px;
+  box-shadow: 6px 6px 8px 0px var(--container-box-shadow-color);
+}
+
+.login__btn {
+  font: inherit;
+  outline: none;
+
+  width: 400px;
+  margin: 18px 0 9px 0;
+  padding: 8px 20px;
+  position: relative;
+  border-radius: 0;
+
+  background: none;
+  overflow: hidden;
+  color: var(--btn-color);
+  border: 1px solid var(--btn-border-color);
+
+  transition: 0.3s;
+
+  &::before {
+    position: absolute;
+    content: "";
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      120deg,
+      transparent,
+      var(--primary-color),
+      transparent
+    );
+    transform: translateX(-100%);
+
+    transition: 0.6s;
+  }
+
+  &:hover {
+    box-shadow: 0 0 20px 5px var(--btn-box-shadow-color);
+
+    &::before {
+      transform: translateX(100%);
+    }
+  }
+}
