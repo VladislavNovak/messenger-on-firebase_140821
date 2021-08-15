@@ -119,6 +119,37 @@ the project is educational and uses the React and Firebase
     );
   }
 
+## Настраиваем Firebase для приложения
+
+  ### В проект/src/index.js подключаем firebase
+
+  import firebase from 'firebase';
+  import 'firebase/firestore';
+  import 'firebase/auth';
+
+  ### На сайте firebase создаем новый проект. 
+
+  ### Копируем из firebaseConfig настройки:
+
+  var firebaseConfig = {...};
+
+  ### Вставляем их в проект/src/index.js
+    
+  firebase.initializeApp(firebaseConfig({
+    ...
+  }))
+
+  ### Настраиваем на сайте firebase аутентификацию
+
+   вкладка authentication
+   выбираем google
+   выбираем свою учетную запись
+   сохраняем
+
+  ### В проект/src/index.js вызываем объект auth
+
+    const auth = firebase.auth();
+
 ## LIFEHACKS
 
 ### Запустить приложение на другом порте

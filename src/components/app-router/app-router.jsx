@@ -11,20 +11,20 @@ const AppRouter = () => {
     <main className="app-router">
       {
         user ? (
-            <Switch>
-              {privateRoutes.map(({path, Component}) => <Route key={path} path={path} component={Component} exact={true} />)}
-              <Redirect to={CHAT_ROUTE} />
-            </Switch>
-          ) : (
-            <Switch>
-              {publicRoutes.map(({path, Component}) => <Route key={path} path={path} component={Component} exact />)}
-              <Redirect to={LOGIN_ROUTE} />
-            </Switch>
-          )
+          <Switch>
+            {privateRoutes.map(({path, Component}) => <Route key={path} path={path} component={Component} exact={true} />)}
+            <Redirect to={CHAT_ROUTE} />
+          </Switch>
+        ) : (
+          <Switch>
+            {publicRoutes.map(({path, Component}) => <Route key={path} path={path} component={Component} exact />)}
+            <Redirect to={LOGIN_ROUTE} />
+          </Switch>
+        )
 
       }
     </main>
-  )
+  );
 };
 
 export default AppRouter;
