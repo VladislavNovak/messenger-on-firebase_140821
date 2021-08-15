@@ -95,15 +95,15 @@ the project is educational and uses the React and Firebase
     const AppRouter = () => {
       const user = false;
       return user ? (
-          <|Switch>
+          <Switch>
             {privateRoutes.map(({path, Component}) => <|Route key={path} path={path} component={Component} exact={true} />)}
             <|Redirect to={CHAT_ROUTE} />   
-          <|/Switch>
+          </Switch>
         ) : (
-          <|Switch>
+          <Switch>
             {publicRoutes.map(({path, Component}) => <|Route key={path} path={path} component={Component} exact={true} />)}
             <|Redirect to={LOGIN_ROUTE} />   
-          <|/Switch>
+          </Switch>
         );
     };
 
@@ -116,12 +116,14 @@ the project is educational and uses the React and Firebase
 
     function App() {
       return (
-        <|BrowserRouter>
-          Компоненты, которые всегда отрисовываются. Например, <|Navbar>
-          <|AppRouter />
-        <|BrowserRouter />
+        <BrowserRouter>
+          <Navbar>
+          <AppRouter />
+        <BrowserRouter />
       );
     }
+
+  В данном случае Navbar будет отрисовываться в любом случае, а AppRouter - по выбору - для пользователей: авторизованных или неавторизованых
 
 ## Настраиваем Firebase для приложения
 
