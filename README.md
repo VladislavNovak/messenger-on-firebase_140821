@@ -1,70 +1,83 @@
-# Getting Started with Create React App
+# Road map
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+the project is educational and uses the React and Firebase
 
-## Available Scripts
+## Создаем проект используя Create React App и удаляем все файлы, которые точно не понадобятся в проекте
 
-In the project directory, you can run:
+Если установлен npm 5.2.0+, дучше использовать npx:
 
-### `npm start`
+npx create-react-app my-app
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Добавляем зависимости
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+  devDependencies: {
+    react-router-dom, typescript, firebase, react-firebase-hooks, 
+  }
 
-### `npm test`
+  "devDependencies": {
+    @babel/core, eslint, eslint-config-htmlacademy,
+  }
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+  react-firebase-hooks позволяет более комфортно взаимодействовать с авторизацией и базой данных
 
-### `npm run build`
+## Добавляем компоненты
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+В src -> папку components
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+В components -> создаем папки chat, login, message, navbar, sidebar
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+А в них -> аналогичные друг другу .jsx и .scss файлы chat, login, message, navbar, sidebar
+для быстрого создания используем сниппет rsc, который разворачивает функциональный компонент
 
-### `npm run eject`
+В components -> index с экспортами типа export {default as Chat} from './chat/chat.jsx'
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Настраиваем роутинг
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Выносим константы constants.js: 
+const LOGIN_ROUTE = '/login';
+const CHAT_ROUTE = '/chat'
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+LOGIN_ROUTE - понадобится для всех пользователей, 
+CHAT_ROUTE - маршрут только для авторизованных
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### Выносим пути для роутинга в отдельный файл routes.js: 
 
-## Learn More
+Создаем массивы, которые содержат объекты <путь, объект отрисовки>
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+const publicRoutes = [{path: LOGIN_ROUTE, Component: Login}];
+const privateRoutes = [{path: CHAT_ROUTE, Component: Chat}];
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Создаем компонент навигации AppRoute.jsx: 
 
-### Code Splitting
+Здесь будут описаны все маршруты, по которым мы сможем переходить в нашем приложении
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+const AppRouter = () => {
+  const user = false;
+  return user ? (
+      <|Switch>
+        {privateRoutes.map(({path, Component}) => <|Route key={path} path={path} component={Component} exact={true} />)}
+        <|Redirect to={CHAT_ROUTE} />   
+      <|/Switch>
+    ) : (
+      <|Switch>
+        {publicRoutes.map(({path, Component}) => <|Route key={path} path={path} component={Component} exact={true} />)}
+        <|Redirect to={LOGIN_ROUTE} />   
+      <|/Switch>
+    );
+};
 
-### Analyzing the Bundle Size
+user - пока фейковая переменная. Если равна true, значит пользователь авторизован
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Switch итерируется по всем путям и в том случае, если ничего не найдено, возвращает последний маршрут. В нашем случае - Redirect. Это необходимо для того, чтобы пользователь, при неверном наборе пути, возвращался или на CHAT_ROUTE, или на LOGIN_ROUTE
 
-### Making a Progressive Web App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Оборачиваем приложение на уровне App.jsx в BrowserRouter
 
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+function App() {
+  return (
+    <|BrowserRouter>
+      Компоненты, которые всегда отрисовываются. Например, <|Navbar>
+      <|AppRouter />
+    <|BrowserRouter />
+  );
+}
