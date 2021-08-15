@@ -58,6 +58,7 @@ the project is educational and uses the React and Firebase
 
 ## Добавляем компоненты
 
+<<<<<<< HEAD
   В src → папку components
 
   В components → создаем папки chat, login, message, navbar, sidebar
@@ -66,11 +67,25 @@ the project is educational and uses the React and Firebase
   для быстрого создания используем сниппет rsc, который разворачивает функциональный компонент
 
   В components → index с экспортами типа export {default as Chat} from './chat/chat.jsx'
+=======
+  В src -> папку components
+
+  В components -> создаем папки chat, login, message, navbar, sidebar
+
+  А в них -> аналогичные друг другу .jsx и .scss файлы chat, login, message, navbar, sidebar
+  для быстрого создания используем сниппет rsc, который разворачивает функциональный компонент
+
+  В components -> index с экспортами типа export {default as Chat} from './chat/chat.jsx'
+>>>>>>> master
 
 ## Настраиваем роутинг
 
   ### Выносим константы constants.js:
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> master
   const LOGIN_ROUTE = '/login';
   const CHAT_ROUTE = '/chat'
 
