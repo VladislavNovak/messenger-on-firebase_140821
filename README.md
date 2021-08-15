@@ -4,9 +4,9 @@ the project is educational and uses the React and Firebase
 
 ## Создаем проект используя Create React App и удаляем все файлы, которые точно не понадобятся в проекте
 
-  ### npx create-react-app my-app
-
-  Если установлен npm 5.2.0+, лучше использовать npx
+  ### Если установлен npm 5.2.0+, лучше использовать npx
+  
+    npx create-react-app my-app
 
 ## Добавляем зависимости
 
@@ -74,37 +74,38 @@ the project is educational and uses the React and Firebase
 ## Настраиваем роутинг
 
   ### Выносим константы constants.js:
-  const LOGIN_ROUTE = '/login';
-  const CHAT_ROUTE = '/chat'
+
+    const LOGIN_ROUTE = '/login';
+    const CHAT_ROUTE = '/chat'
 
   LOGIN_ROUTE - понадобится для всех пользователей, 
   CHAT_ROUTE - маршрут только для авторизованных
 
-  ### Выносим пути для роутинга в отдельный файл routes.js: 
+  ### Выносим пути для роутинга в отдельный файл routes.js:
 
-  Создаем массивы, которые содержат объекты <путь, объект отрисовки>
+  Это будут массивы, которые содержат объекты <путь, объект отрисовки>
 
-  const publicRoutes = [{path: LOGIN_ROUTE, Component: Login}];
-  const privateRoutes = [{path: CHAT_ROUTE, Component: Chat}];
+    const publicRoutes = [{path: LOGIN_ROUTE, Component: Login}];
+    const privateRoutes = [{path: CHAT_ROUTE, Component: Chat}];
 
   ### Создаем компонент навигации AppRoute.jsx: 
 
   Здесь будут описаны все маршруты, по которым мы сможем переходить в приложении
 
-  const AppRouter = () => {
-    const user = false;
-    return user ? (
-        <|Switch>
-          {privateRoutes.map(({path, Component}) => <|Route key={path} path={path} component={Component} exact={true} />)}
-          <|Redirect to={CHAT_ROUTE} />   
-        <|/Switch>
-      ) : (
-        <|Switch>
-          {publicRoutes.map(({path, Component}) => <|Route key={path} path={path} component={Component} exact={true} />)}
-          <|Redirect to={LOGIN_ROUTE} />   
-        <|/Switch>
-      );
-  };
+    const AppRouter = () => {
+      const user = false;
+      return user ? (
+          <|Switch>
+            {privateRoutes.map(({path, Component}) => <|Route key={path} path={path} component={Component} exact={true} />)}
+            <|Redirect to={CHAT_ROUTE} />   
+          <|/Switch>
+        ) : (
+          <|Switch>
+            {publicRoutes.map(({path, Component}) => <|Route key={path} path={path} component={Component} exact={true} />)}
+            <|Redirect to={LOGIN_ROUTE} />   
+          <|/Switch>
+        );
+    };
 
   user - пока моковая переменная. Если равна true, значит пользователь авторизован
 
@@ -113,22 +114,22 @@ the project is educational and uses the React and Firebase
 
   ### Оборачиваем приложение на уровне App.jsx в BrowserRouter
 
-  function App() {
-    return (
-      <|BrowserRouter>
-        Компоненты, которые всегда отрисовываются. Например, <|Navbar>
-        <|AppRouter />
-      <|BrowserRouter />
-    );
-  }
+    function App() {
+      return (
+        <|BrowserRouter>
+          Компоненты, которые всегда отрисовываются. Например, <|Navbar>
+          <|AppRouter />
+        <|BrowserRouter />
+      );
+    }
 
 ## Настраиваем Firebase для приложения
 
   ### В проект/src/index.js подключаем firebase
 
-  import firebase from 'firebase';
-  import 'firebase/firestore';
-  import 'firebase/auth';
+    import firebase from 'firebase';
+    import 'firebase/firestore';
+    import 'firebase/auth';
 
   ### На сайте firebase создаем новый проект. 
 
@@ -138,9 +139,9 @@ the project is educational and uses the React and Firebase
 
   ### Вставляем их в проект/src/index.js
     
-  firebase.initializeApp(firebaseConfig({
-    ...
-  }))
+    firebase.initializeApp(firebaseConfig({
+      ...
+    }))
 
   ### Настраиваем на сайте firebase аутентификацию
 
@@ -156,5 +157,7 @@ the project is educational and uses the React and Firebase
 ## LIFEHACKS
 
 ### Запустить приложение на другом порте
+
 Прописать в package.json
-"start": "set port=3006 && react-scripts start"
+
+  "start": "set port=3006 && react-scripts start"
