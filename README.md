@@ -4,9 +4,9 @@ the project is educational and uses the React and Firebase
 
 ## Создаем проект используя Create React App и удаляем все файлы, которые точно не понадобятся в проекте
 
-  Если установлен npm 5.2.0+, лучше использовать npx:
-
   ### npx create-react-app my-app
+
+  Если установлен npm 5.2.0+, лучше использовать npx
 
 ## Добавляем зависимости
 
@@ -17,20 +17,60 @@ the project is educational and uses the React and Firebase
   node-sass - если нужно использовать стили scss
   react-firebase-hooks - позволяет более комфортно взаимодействовать с авторизацией и базой данных
 
+## Для корректной работы линтера создаем
+
+  ### .editorconfig
+
+    root = true
+
+    [*]
+    charset = utf-8
+    end_of_line = lf
+    indent_size = 2
+    indent_style = space
+    insert_final_newline = true
+    trim_trailing_whitespace = true
+
+    [*.md]
+    trim_trailing_whitespace = false
+
+  ### .eslintrc.yml
+
+  env:
+    es2017: true
+    browser: true
+    commonjs: true
+    jest: true
+
+  extends: ['htmlacademy/es6', 'plugin:react/recommended']
+
+  parserOptions:
+    ecmaFeatures:
+      jsx: true
+    ecmaVersion: 2018
+    sourceType: module
+
+  plugins: ['react']
+
+  settings:
+    react:
+      version: '16'
+
 ## Добавляем компоненты
 
-В src -> папку components
+  В src → папку components
 
-В components -> создаем папки chat, login, message, navbar, sidebar
+  В components → создаем папки chat, login, message, navbar, sidebar
 
-А в них -> аналогичные друг другу .jsx и .scss файлы chat, login, message, navbar, sidebar
-для быстрого создания используем сниппет rsc, который разворачивает функциональный компонент
+  А в них → аналогичные друг другу .jsx и .scss файлы chat, login, message, navbar, sidebar
+  для быстрого создания используем сниппет rsc, который разворачивает функциональный компонент
 
-В components -> index с экспортами типа export {default as Chat} from './chat/chat.jsx'
+  В components → index с экспортами типа export {default as Chat} from './chat/chat.jsx'
 
 ## Настраиваем роутинг
 
-  ### Выносим константы constants.js: 
+  ### Выносим константы constants.js:
+
   const LOGIN_ROUTE = '/login';
   const CHAT_ROUTE = '/chat'
 
