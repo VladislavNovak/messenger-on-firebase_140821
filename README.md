@@ -10,9 +10,13 @@ the project is educational and uses the React and Firebase
 
 ## Добавляем зависимости
 
-  ### npm i @babel/core, eslint, eslint-config-htmlacademy -DE
+  ### DevDependencies
+  
+    npm i @babel/core, eslint, eslint-config-htmlacademy -DE
 
-  ### npm i react-router-dom typescript firebase react-firebase-hooks node-sass
+  ### Dependencies
+  
+    npm i react-router-dom typescript firebase react-firebase-hooks node-sass
 
   node-sass - если нужно использовать стили scss
   react-firebase-hooks - позволяет более комфортно взаимодействовать с авторизацией и базой данных
@@ -36,25 +40,25 @@ the project is educational and uses the React and Firebase
 
   ### .eslintrc.yml
 
-  env:
-    es2017: true
-    browser: true
-    commonjs: true
-    jest: true
+    env:
+      es2017: true
+      browser: true
+      commonjs: true
+      jest: true
 
-  extends: ['htmlacademy/es6', 'plugin:react/recommended']
+    extends: ['htmlacademy/es6', 'plugin:react/recommended']
 
-  parserOptions:
-    ecmaFeatures:
-      jsx: true
-    ecmaVersion: 2018
-    sourceType: module
+    parserOptions:
+      ecmaFeatures:
+        jsx: true
+      ecmaVersion: 2018
+      sourceType: module
 
-  plugins: ['react']
+    plugins: ['react']
 
-  settings:
-    react:
-      version: '16'
+    settings:
+      react:
+        version: '16'
 
 ## Добавляем компоненты
 
