@@ -221,15 +221,15 @@ the project is educational and uses the React and Firebase
 
 ## Добавляем лоадер
 
-Создаем компонент Loader и добавляем в App код
+  Создаем компонент Loader и добавляем в App код
 
-  import React, {useContext} from 'react';
-  import {Context} from '../..';
-  import {useAuthState} from "react-firebase-hooks/auth";
+    import React, {useContext} from 'react';
+    import {Context} from '../..';
+    import {useAuthState} from "react-firebase-hooks/auth";
 
-  function App() {
-  const {auth} = useContext(Context);
-  const [, loading] = useAuthState(auth);
+    function App() {
+    const {auth} = useContext(Context);
+    const [, loading] = useAuthState(auth);
 
     if (loading) {
       return <Loader />;
