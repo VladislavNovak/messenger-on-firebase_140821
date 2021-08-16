@@ -164,7 +164,6 @@ the project is educational and uses the React and Firebase
   ### В проект/src/index.js подключаем firebase и вызываем объект auth
 
     import firebase from 'firebase/app';
-    import 'firebase/firestore';
     import 'firebase/auth';
 
     const auth = firebase.auth();
@@ -243,7 +242,73 @@ the project is educational and uses the React and Firebase
     );
   }
 
-  ### Запустить приложение на другом порте
+## Чат на основе firebase
+
+  ### Создадим в Cloud Firestore коллекцию
+
+  База данных - firestore - на сервере состоит из коллекций, которыми можно оперировать. Для начала нужно их зарегистрировать. Перейдем на вкладку firestore.database. Нажимаем кнопку `Создать базу данных`, выбираем тестовый режим, выбираем ближайший сервер. Теперь, при отправке данных на сервер, мы будем их видеть в закладке `messages` (наименование может быть любое данное нами чуть позже)
+
+  ### Подключение firestore в src/index.js
+
+  Импортируем firestore, извлекаем его из firebase и передаем в контекст для последующего использования в других компонентах
+
+    import 'firebase/firestore';
+
+    const firestore = firebase.firestore();
+
+    <Context.Provider value={{auth, firestore}}>
+
+  ### Получение данных с сервера
+
+  База данных на сервере состоит из коллекций, получить которые можно с помощью хука useCollectionData(). Его главный параметр - запрос коллекции. Коллекцию назовем `messages`. Сразу же можно отсортировать полученную информацию. useCollectiionData возвращает информацию и статус загрузки
+  
+  Но перед этим создаем компонент Chat, стилизуем его подключим все импорты
+
+    import React, {useContext} from 'react';
+    import {Context} from '../..';
+    import {useAuthState} from "react-firebase-hooks/auth";
+    import {useCollectionData} from "react-firebase-hooks/firestore";
+
+    const {auth, firestore} = useContext(Context);
+    const [user] = useAuthState(auth);
+
+    const [messages, loading] = useCollectionData(firestore.collection(`message`).orderBy(`createdAt`));
+
+  Теперь в Chat можно добавить компонент и Loader
+
+    import Loader from '../loader/loader';
+
+    if (loading) {return <Loader />;}
+
+  ### Отправка данных на сервер
+
+  Добавляем в Chat стэйт и событие клика sendMessage. Т.к. взаимодействие происходит с сетью, функция будет асинхронной. Сервер принимает коллекцию. Чуть ранее мы договорились, что назовем ее `messages`. Теперь, с помощью метода add добавим в отправляемую коллекцию те поля, которые сочтем нужным. В самом конце очищаем поле
+
+    import {useState} from 'react';
+
+    const [msg, setMsg] = useState(``);
+
+    const sendMessage = async () => {
+      firestore.collection(`messages`).add({
+        uid: user.uid,
+        displayName: user.displayName,
+        photoURL: user.photoURL,
+        text: msg,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+
+      setMsg(``);
+    };
+
+    <textarea
+      value={msg}
+      onChange={({target}) => setMsg(target.value)}
+      placeholder="Enter your message" />
+    <button
+      onClick={sendMessage}
+      href="#" className="btn">Send</button>
+
+## Запустить приложение на другом порте
 
   Прописать в package.json
 

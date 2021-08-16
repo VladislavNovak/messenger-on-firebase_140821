@@ -20,9 +20,10 @@ firebase.initializeApp({
 export const Context = createContext(null);
 
 const auth = firebase.auth();
+const firestore = firebase.firestore();
 
 ReactDOM.render(
-    <Context.Provider value={{auth}}>
+    <Context.Provider value={{auth, firestore}}>
       <App />
     </Context.Provider>,
     document.getElementById(`root`)

@@ -8,9 +8,7 @@ const Login = () => {
 
   const login = async () => {
     const provider = new firebase.auth.GoogleAuthProvider();
-    const {user} = await auth.signInWithPopup(provider);
-    // eslint-disable-next-line no-console
-    console.log(user);
+    await auth.signInWithPopup(provider);
   };
 
   return (
