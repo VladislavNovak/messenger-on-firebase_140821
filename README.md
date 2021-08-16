@@ -72,7 +72,13 @@ the project is educational and uses the React and Firebase
   • А в них → аналогичные друг другу .jsx и .scss файлы chat, login, message, navbar, sidebar
   для быстрого создания используем сниппет rsc, который разворачивает функциональный компонент
 
-  • В components/index.js → экспорты компонентов: export {default as Chat} from './chat/chat.jsx'
+  • В components/index.js → экспорты компонентов: 
+  
+    export {default as AppRouter} from './app-router/app-router.jsx';
+    export {default as Chat} from './chat/chat.jsx';
+    export {default as Login} from './login/login.jsx';
+    export {default as Message} from './message/message.jsx';
+    export {default as Navbar} from './navbar/navbar.jsx';
 
 ## Настраиваем роутинг
 
@@ -81,16 +87,18 @@ the project is educational and uses the React and Firebase
     const LOGIN_ROUTE = '/login';
     const CHAT_ROUTE = '/chat'
 
-  LOGIN_ROUTE - понадобится для всех пользователей
-
-  CHAT_ROUTE - маршрут только для авторизованных
+  Первый понадобится для всех, второй - маршрут только для авторизованных пользователей
 
   ### Выносим пути для роутинга в отдельный файл routes.js:
 
   Это будут массивы, которые содержат объекты <путь, объект отрисовки>
 
-    const publicRoutes = [{path: LOGIN_ROUTE, Component: Login}];
-    const privateRoutes = [{path: CHAT_ROUTE, Component: Chat}];
+    import {CHAT_ROUTE, LOGIN_ROUTE} from './constants';
+    import Login from '../components/login/login';
+    import Chat from '../components/chat/chat';
+
+    export const publicRoutes = [{path: LOGIN_ROUTE, Component: Login}];
+    export const privateRoutes = [{path: CHAT_ROUTE, Component: Chat}];
 
   ### Создаем компонент навигации AppRoute.jsx: 
 
@@ -127,17 +135,11 @@ the project is educational and uses the React and Firebase
       );
     }
 
-  В данном случае Navbar будет отрисовываться в любом случае, а AppRouter - по выбору - для пользователей: авторизованных или неавторизованых
+  В данном случае Navbar будет отрисовываться в любом случае, а компоненты в AppRouter - по выбору: авторизованных пользователей или нет
 
 ## Настраиваем Firebase
 
-  ### В проект/src/index.js подключаем firebase
-
-    import firebase from 'firebase';
-    import 'firebase/firestore';
-    import 'firebase/auth';
-
-  ### На сайте firebase создаем новый проект. 
+  ### На сайте firebase создаем новый проект.
 
   ### Копируем из firebaseConfig настройки:
 
@@ -159,20 +161,18 @@ the project is educational and uses the React and Firebase
 
    • сохраняем
 
-  ### В проект/src/index.js вызываем объект auth
+  ### В проект/src/index.js подключаем firebase и вызываем объект auth
 
     import firebase from 'firebase/app';
+    import 'firebase/firestore';
     import 'firebase/auth';
 
     const auth = firebase.auth();
 
 ## LogIn - LogOut
 
-  Создаем контекст, позволяющий прокидывать и извлекать пропсы в независимых друг от друга компонентах. Это позволит передавать между компонентами объект auth
-
   ### В src/index.js добавляем Context оборачиваем App контекстом и передаем ему auth
-
-  Context необходимо экспортировать, т.к. он понадобится в других компонентах
+  Создаем контекст, позволяющий прокидывать и извлекать пропсы в независимых друг от друга компонентах. Это позволит передавать между компонентами объект auth. Context необходимо экспортировать, т.к. он понадобится в других компонентах
 
     import {createContext} from 'react';
 
@@ -183,7 +183,6 @@ the project is educational and uses the React and Firebase
         <App />
       </Context.Provider>,
       document.getElementById(`root`));
-
 
   ### Логинимся
 
@@ -220,7 +219,29 @@ the project is educational and uses the React and Firebase
 
     <button onClick={() => auth.signOut()}>Выйти</button>
 
-## LIFEHACKS
+## Добавляем лоадер
+
+Создаем компонент Loader и добавляем в App код
+
+  import React, {useContext} from 'react';
+  import {Context} from '../..';
+  import {useAuthState} from "react-firebase-hooks/auth";
+
+  function App() {
+  const {auth} = useContext(Context);
+  const [, loading] = useAuthState(auth);
+
+    if (loading) {
+      return <Loader />;
+    }
+
+    return (
+      <BrowserRouter>
+        <Navbar />
+        <AppRouter />
+      </BrowserRouter>
+    );
+  }
 
   ### Запустить приложение на другом порте
 

@@ -1,10 +1,11 @@
 import React, {createContext} from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import App from './components/app/app';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
+
+import './index.css';
 
 firebase.initializeApp({
   apiKey: `AIzaSyBHD5wM6tZmz5hnmfb40eXWi1tXTIm_DQY`,

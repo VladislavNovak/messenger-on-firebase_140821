@@ -1,9 +1,10 @@
 import React, {useContext} from 'react';
+import {Context} from '../..';
+import {useAuthState} from "react-firebase-hooks/auth";
+
 import {Route, Switch, Redirect} from 'react-router-dom';
 import {CHAT_ROUTE, LOGIN_ROUTE} from '../../utils/constants';
 import {privateRoutes, publicRoutes} from '../../utils/routes';
-import {Context} from '../..';
-import {useAuthState} from "react-firebase-hooks/auth";
 import './app-router.scss';
 
 const AppRouter = () => {
@@ -24,7 +25,6 @@ const AppRouter = () => {
             <Redirect to={LOGIN_ROUTE} />
           </Switch>
         )
-
       }
     </main>
   );
