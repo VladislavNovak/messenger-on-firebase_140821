@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {createContext} from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
 
@@ -16,11 +16,13 @@ firebase.initializeApp({
   measurementId: `G-YK1CJGC3MS`
 });
 
+export const Context = createContext(null);
+
 const auth = firebase.auth();
 
 ReactDOM.render(
-    <React.StrictMode>
+    <Context.Provider value={{auth}}>
       <App />
-    </React.StrictMode>,
+    </Context.Provider>,
     document.getElementById(`root`)
 );
