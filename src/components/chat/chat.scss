@@ -26,16 +26,7 @@
   --chat-bubble-me: #f2f2f2;
 }
 
-
-.btn {
-  opacity: 0.7;
-}
-
-.btn:hover {
-  opacity: 1;
-}
-
-.main-container {
+.chat {
   width: 80vw;
   max-width: 800px;
 
@@ -47,7 +38,7 @@
   background-color: #fff;
 }
 
-.head-container {
+.chat__header {
   width: calc(100% - 25px * 2);
   padding: 25px;
 
@@ -58,7 +49,7 @@
   color: #fff;
   background-color: var(--header-color);
 
-  & h1 {
+  &-title {
     text-transform: uppercase;
     font-size: 1.2rem;
     letter-spacing: 1px;
@@ -73,21 +64,22 @@
   }
 }
 
-.message-container-wrapper {
+.chat__main {
   width: 100%;
   max-height: 600px;
   display: flex;
+  flex-direction: column;
   overflow-y: auto;
 }
 
-.message-container {
-  width: 100%;
+.chat__main-list {
+  width: calc(100% - 25px * 2);
   display: flex;
   flex-direction: column;
-  padding: 25px 25px 0 25px;
+  padding: 0px 25px 0 25px;
 }
 
-.message-container h3 {
+.chat__main-list h3 {
   color: var(--light-gray);
   border-bottom: 1px solid var(--light-gray);
   text-align: center;
@@ -97,28 +89,22 @@
   font-size: 1rem;
 }
 
-.message-container h3 span {
+.chat__main-list h3 span {
   padding: 0 15px;
   background-color: #fff;
 }
 
-.message-container div.sent {
+.chat__main-list div.sent {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
 
-.message-container div:not(.sent) {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-}
-
-.message-container .hour {
+.chat__main-hour {
   color: var(--dark-gray);
 }
 
-.message-container p {
+.chat__main-list p {
   position: relative;
 }
 
@@ -185,7 +171,7 @@
   border-radius: 3px;
 }
 
-.input-container {
+.chat__bottom {
   width: calc(100% - 25px * 2);
   padding: 25px;
 
@@ -209,14 +195,25 @@
     outline: none;
     border: none;
   }
+
+  &-btn {
+    margin-left: 20px;
+
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--search-form-bg-colour);
+    letter-spacing: 1px;
+    border: none;
+    background-color: transparent;
+    text-transform: uppercase;
+    cursor: pointer;
+
+    &:hover {
+      text-shadow: 1px 1px 0px rgba(15,23,206,0.25);
+    }
+  }
 }
 
-.input-container a {
-  text-decoration: none;
-  cursor: pointer;
-  font-weight: bold;
-  color: var(--search-form-bg-colour);
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  margin-left: 20px;
+.endmessage {
+  width: 50%;
 }
