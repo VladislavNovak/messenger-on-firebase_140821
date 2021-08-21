@@ -5,7 +5,7 @@ import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
 
-import './index.css';
+import './assets/sass/style.scss';
 
 firebase.initializeApp({
   apiKey: `AIzaSyBHD5wM6tZmz5hnmfb40eXWi1tXTIm_DQY`,

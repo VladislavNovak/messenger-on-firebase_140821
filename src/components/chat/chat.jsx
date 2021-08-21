@@ -6,8 +6,7 @@ import {useCollectionData} from "react-firebase-hooks/firestore";
 
 import {Context} from '../..';
 import {ChatBottom, Loader} from '..';
-
-import './chat.scss';
+import {Icon} from '../../assets/img';
 
 // ---------------------------------------------------------------------------------------------------------
 
@@ -32,9 +31,16 @@ const Chat = () => {
   };
 
   useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log(`user: `, user);
-    if (aChatMainEnd.current) {
+    if (messages) {
+      if (messages[messages.length - 1].createdAt) {
+        // eslint-disable-next-line no-console
+        console.log(`time: `, messages[messages.length - 1].createdAt.toDate());
+        // eslint-disable-next-line no-console
+        console.log(`time: `, dayjs(messages[messages.length - 1].createdAt.toDate()).format(`DD/MM/YYYY HH:mm`));
+      }
+    }
+
+    if (messages) {
       aChatMainEnd.current.scrollIntoView({behavior: `smooth`, block: `end`});
     }
   }, [messages]);
@@ -46,10 +52,10 @@ const Chat = () => {
   return (
     <div className="chat">
       <div className="chat__header">
-        <h1 className="chat__header-title">{user.displayName}</h1>
         <div className="chat__header-img">
           <img className="chat__header-photoURL" src={user.photoURL} alt="close" />
         </div>
+        <h1 className="chat__header-title">{user.displayName}</h1>
         <a href="#" className="btn">
           <img className="chat__header-delete" src="https://svgshare.com/i/Knn.svg" alt="close" />
         </a>
@@ -58,9 +64,19 @@ const Chat = () => {
       <div className="chat__main">
         <div className="chat__main-list">
           {messages.map(({uid, text, createdAt}, index) => (
-            <div key={`${uid}-${text}-${index}`} className={uid === user.uid ? `sent` : `received`}>
-              <h5 className="chat__main-hour">{createdAt ? dayjs(createdAt.toDate()).format(`DD/MM/YYYY HH:MM`) : null}</h5>
-              <p className={uid === user.uid ? `sent-bubble` : `received-bubble`}>{text}</p>
+            <div key={`${uid}-${text}-${index}`} className={`msg ${uid === user.uid ? `msg-send` : `msg-received`}`}>
+              <div className="msg__content">
+                <p className="msg__content-hour">{createdAt && dayjs(createdAt.toDate()).format(`HH:mm`)}</p>
+                <div className="msg__control">
+                  <button className="msg__control-btn">
+                    <img className="msg__control-img" src={Icon.EDIT} alt="" />
+                  </button>
+                  <button className="msg__control-btn">
+                    <img className="msg__control-img" src={Icon.DELETE} alt="" />
+                  </button>
+                </div>
+                <p className="msg__text">{text}</p>
+              </div>
             </div>
           ))}
 

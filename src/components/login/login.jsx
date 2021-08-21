@@ -1,7 +1,6 @@
 import React, {useContext} from 'react';
 import {Context} from '../..';
 import firebase from 'firebase/app';
-import './login.scss';
 
 const Login = () => {
   const {auth} = useContext(Context);

@@ -1,11 +1,3 @@
-:root {
-  --primary-color: hsl(196, 78%, 61%);
-  --btn-color: var(--primary-color);
-  --btn-border-color: var(--primary-color);
-  --btn-box-shadow-color: hsla(204, 70%, 53%, 0.5);
-  --container-box-shadow-color: rgba(6, 21, 32, 0.5);
-}
-
 .login__container {
   width: 50%;
   display: flex;
@@ -13,9 +5,9 @@
   justify-content: center;
   padding: 50px 40px;
 
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: $primary-bg-color;
   border-radius: 8px;
-  box-shadow: 6px 6px 8px 0px var(--container-box-shadow-color);
+  box-shadow: 6px 6px 8px 0px $container-box-shadow-color;
 }
 
 .login__btn {
@@ -30,8 +22,8 @@
 
   background: none;
   overflow: hidden;
-  color: var(--btn-color);
-  border: 1px solid var(--btn-border-color);
+  color: $btn-color;
+  border: 1px solid $btn-border-color;
 
   transition: 0.3s;
 
@@ -45,7 +37,7 @@
     background: linear-gradient(
       120deg,
       transparent,
-      var(--primary-color),
+      $primary-color,
       transparent
     );
     transform: translateX(-100%);
@@ -54,7 +46,7 @@
   }
 
   &:hover {
-    box-shadow: 0 0 20px 5px var(--btn-box-shadow-color);
+    box-shadow: 0 0 20px 5px $btn-box-shadow-color;
 
     &::before {
       transform: translateX(100%);

@@ -1,0 +1,35 @@
+
+.chat__bottom {
+  width: calc(100% - 25px * 2);
+  padding: 25px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background-color: $violet;
+
+  & textarea {
+    width: 100%;
+    min-height: 50px;
+    padding: 0 10px 0 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    line-height: 1.5rem;
+
+    overflow-y: auto;
+
+    font-family: inherit;
+    border-radius: 3px;
+    outline: none;
+    border: none;
+  }
+
+  &-btn {
+    margin-left: 20px;
+
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+  }
+}
