@@ -5,8 +5,7 @@ import firebase from 'firebase/app';
 import {useCollectionData} from "react-firebase-hooks/firestore";
 
 import {Context} from '../..';
-import {ChatBottom, Loader} from '..';
-import {Icon} from '../../assets/img';
+import {ChatBottom, Loader, Msg} from '..';
 
 // ---------------------------------------------------------------------------------------------------------
 
@@ -21,13 +20,38 @@ const Chat = () => {
       return;
     }
 
-    firestore.collection(`messages`).add({
+    firestore.collection(`messages`).doc(`LAA`).set({
       uid: user.uid,
       displayName: user.displayName,
       photoURL: user.photoURL,
       text: msg,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+    })
+    .then(() => {
+      // eslint-disable-next-line no-console
+      console.log(`Document successfully written!`);
+    })
+    .catch((error) => {
+      // eslint-disable-next-line no-console
+      console.error(`Error writing document: `, error);
     });
+
+    //  // To update
+    // firestore.collection(`messages`).doc(`LAA`).update({
+    //   text: msg,
+    // })
+    // .then(() => {
+    //   // eslint-disable-next-line no-console
+    //   console.log(`Document successfully updated!`);
+    // });
+
+    // firestore.collection(`messages`).add({
+    //   uid: user.uid,
+    //   displayName: user.displayName,
+    //   photoURL: user.photoURL,
+    //   text: msg,
+    //   createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    // });
   };
 
   useEffect(() => {
@@ -64,20 +88,12 @@ const Chat = () => {
       <div className="chat__main">
         <div className="chat__main-list">
           {messages.map(({uid, text, createdAt}, index) => (
-            <div key={`${uid}-${text}-${index}`} className={`msg ${uid === user.uid ? `msg-send` : `msg-received`}`}>
-              <div className="msg__content">
-                <p className="msg__content-hour">{createdAt && dayjs(createdAt.toDate()).format(`HH:mm`)}</p>
-                <div className="msg__control">
-                  <button className="msg__control-btn">
-                    <img className="msg__control-img" src={Icon.EDIT} alt="" />
-                  </button>
-                  <button className="msg__control-btn">
-                    <img className="msg__control-img" src={Icon.DELETE} alt="" />
-                  </button>
-                </div>
-                <p className="msg__text">{text}</p>
-              </div>
-            </div>
+            <Msg
+              key={`${uid}-${text}-${index}`}
+              user={user}
+              uid={uid}
+              text={text}
+              createdAt={createdAt} />
           ))}
 
           <div ref={aChatMainEnd}></div>
