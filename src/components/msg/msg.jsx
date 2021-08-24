@@ -1,53 +1,103 @@
 /* eslint-disable react/prop-types */
-import React, {useState} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
+
 import dayjs from 'dayjs';
 
 import {Icon} from '../../assets/img';
 
 // ---------------------------------------------------------------------------------------------------------
 
-const Msg = ({user, uid, text, createdAt}) => {
+const Msg = ({user, uid, text, createdAt, onClickSave}) => {
   // eslint-disable-next-line no-unused-vars
-  const [editableText, setEditableText] = useState(text);
-  // eslint-disable-next-line no-unused-vars
-  const [editStatus, setEditStatus] = useState(false);
+  const [isEditable, setEditable] = useState(false);
+  const refTextarea = useRef(null);
 
-  const handlePopupActivate = (msg) => {
-    // eslint-disable-next-line no-console
-    console.log(`Вошел!: `, msg);
+  useEffect(() => {
+    refTextarea.current.style.height = `0px`;
+
+    const scrollHeight = refTextarea.current.scrollHeight;
+    refTextarea.current.style.height = scrollHeight + `px`;
+
+  }, [refTextarea.current]);
+
+  const handleAction = ({currentTarget: {name}}) => {
+    switch (name) {
+      case `edit`:
+        // eslint-disable-next-line no-console
+        console.log(`FIRE: `, name);
+        setEditable(true);
+        break;
+      case `delete`:
+        // eslint-disable-next-line no-console
+        console.log(`FIRE: `, name);
+        // setEditable(true);
+        break;
+      case `save`:
+        // eslint-disable-next-line no-console
+        console.log(`FIRE: `, name);
+        onClickSave(refTextarea.current.value);
+        setEditable(false);
+        break;
+      case `cancel`:
+        // eslint-disable-next-line no-console
+        console.log(`FIRE: `, name);
+        refTextarea.current.value = text;
+        setEditable(false);
+        break;
+
+      default:
+        break;
+    }
   };
 
-  const handleInputChange = ({target}) => {
-    setEditableText(target.value);
-  };
+  const insertBtnsEditDelete = () => (
+    <>
+      <button onClick={handleAction} name="edit" className="msg__control-btn">
+        <img
+          className="msg__control-img"
+          src={Icon.EDIT}
+          alt="edit text button" />
+      </button>
+      <button onClick={handleAction} name="delete" className="msg__control-btn">
+        <img
+          className="msg__control-img"
+          src={Icon.DELETE}
+          alt="delete message button" />
+      </button>
+    </>
+  );
 
-  const handleButtonEdit = () => {
-    setEditStatus(true);
-  };
+  const insertBtnsSaveCancel = () => (
+    <>
+      <button onClick={handleAction} name="save" className="msg__control-btn">
+        <img
+          className="msg__control-img"
+          src={Icon.SAVE}
+          alt="edit text button" />
+      </button>
+      <button onClick={handleAction} name="cancel" className="msg__control-btn">
+        <img
+          className="msg__control-img"
+          src={Icon.CANCEL}
+          alt="delete message button" />
+      </button>
+    </>
+  );
 
   return (
     <div
-      onMouseEnter={() => handlePopupActivate(text)}
       className={`msg ${uid === user.uid ? `msg-send` : `msg-received`}`}>
       <div className="msg__content">
         <p className="msg__content-hour">{createdAt && dayjs(createdAt.toDate()).format(`HH:mm`)}</p>
         <div className="msg__control">
-          <button className="msg__control-btn">
-            <img
-              onClick={handleButtonEdit}
-              className="msg__control-img"
-              src={Icon.EDIT}
-              alt="edit button" />
-          </button>
-          <button className="msg__control-btn">
-            <img className="msg__control-img" src={Icon.DELETE} alt="" />
-          </button>
+          {!isEditable ? insertBtnsEditDelete() : insertBtnsSaveCancel()}
         </div>
-        <p
-          onChange={handleInputChange}
-          contentEditable={editStatus}
-          suppressContentEditableWarning={editStatus}
-          className={`msg__text ${editStatus && `msg__text--edit`}`}>{editableText}</p>
+
+        <textarea
+          className={isEditable ? `msg__textarea msg__textarea--editable` : `msg__textarea`}
+          ref={refTextarea}
+          defaultValue={text}
+          readOnly={!isEditable} />
       </div>
     </div>
   );
